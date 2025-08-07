@@ -1,0 +1,56 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+venv/
+env/
+ENV/
+.vscode/
+.env
+.venv
+env.bak/
+venv.bak/
+
+
+# Output directories
+outputs/
+models/
+*.wav
+*.mp3
+*.ogg
+*.flac
+*.rttm
+tmp/
+temp/
+downloads/
+
+# API 
+.env
+.env.local
+.config.json
+config.local.py
+*.pem
+*.key
+
+
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+$RECYCLE.BIN/
+
+
+
+# cache files
+.cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+requirement.txt
