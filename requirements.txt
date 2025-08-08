@@ -1,0 +1,36 @@
+# Core dependencies
+numpy>=1.22.0        
+torch>=1.13.0        
+torchaudio>=0.13.0   
+transformers>=4.30.0 
+huggingface-hub>=0.16
+
+# Audio processing
+pyaudio>=0.2.13      
+pydub>=0.25.1        
+librosa>=0.10.0      
+soundfile>=0.12.1    
+scipy>=1.9.0         
+
+# Speech recognition
+faster-whisper>=0.9.0
+ffmpeg-python>=0.2.0 
+
+# Speaker diarization
+pyannote.audio>=3.1.0 
+pyannote.core>=4.5.0  
+pyannote.pipeline>=2.3
+einops>=0.6.0         
+sounddevice>=0.4.5    
+
+# Machine learning
+scikit-learn>=1.0.2
+
+# API integrations
+openai>=1.3.0
+requests>=2.28.0
+
+
+# Optional GPU acceleration
+# cuda-python>=11.8.0         # CUDA support (uncomment if using NVIDIA GPU)
+# cudnn>=8.6.0                # cuDNN acceleration (uncomment if using NVIDIA GPU)

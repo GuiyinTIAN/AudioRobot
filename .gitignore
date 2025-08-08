@@ -52,5 +52,3 @@ $RECYCLE.BIN/
 .pytest_cache/
 .coverage
 htmlcov/
-
-requirement.txt
