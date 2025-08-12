@@ -64,39 +64,42 @@ class ASRTranscriber:
         text = " ".join([seg.text for seg in segments]).strip()
         return text, info.language
             
+
+# =============================
+# For testing purposes
+# =============================
 if __name__ == "__main__":
     import time
     import os
     from datetime import datetime
-    segments_dir = "outputs/session_20250731_195445/segments"  # 替换为实际的音频文件目录
-    
+
+    segments_dir = "outputs/session_20250731_195445/segments" # Replace with the actual audio segments directory
+
     if os.path.exists(segments_dir):
         audio_files = sorted([f for f in os.listdir(segments_dir) if f.endswith('.wav')])
-        
+
         if audio_files:
 
             model_load_start = time.time()
-
             asr = ASRTranscriber(model_name="large-v2", device="auto")
-
             model_load_time = time.time() - model_load_start
-            print(f"⚡ 模型加载完成，耗时: {model_load_time:.2f}秒")
-            
-            # 记录处理开始时间
+            print(f"⚡ Model loaded in: {model_load_time:.2f}s")
+
+            # Track processing time
             processing_start_time = time.time()
             results = []
-            
+
             for audio_file in audio_files:
                 audio_path = os.path.join(segments_dir, audio_file)
-                print(f"\n🎵 正在处理: {audio_file}")
-                
+                print(f"\n🎵 Processing: {audio_file}")
+
                 start_time = time.time()
                 text, language = asr.transcribe(audio_path)
                 elapsed_time = time.time() - start_time
-                
-                print(f"📝 文本: {text}")
-                print(f"🌍 语言: {language}")
-                print(f"⏱️  耗时: {elapsed_time:.2f}秒")
+
+                print(f"📝 Text: {text}")
+                print(f"🌍 Language: {language}")
+                print(f"⏱️  Elapsed: {elapsed_time:.2f}s")
 
                 results.append({
                     'file': audio_file,
@@ -104,46 +107,45 @@ if __name__ == "__main__":
                     'language': language,
                     'duration': elapsed_time
                 })
-            
+
             processing_time = time.time() - processing_start_time
             total_time = time.time() - model_load_start
-            
-            print(f"\n🎉 所有处理完成！")
-            print(f"📊 总文件数: {len(audio_files)}")
-            print(f"⚡ 模型加载时间: {model_load_time:.2f}秒")
-            print(f"🔄 纯处理时间: {processing_time:.2f}秒")
-            print(f"⏱️  总时间: {total_time:.2f}秒")
-            print(f"📈 平均处理时间: {processing_time/len(audio_files):.2f}秒/文件")
-            
-            # 生成输出文件名（带时间戳）
+
+            print(f"\n🎉 All processing done!")
+            print(f"📊 Total files: {len(audio_files)}")
+            print(f"⚡ Model load time: {model_load_time:.2f}s")
+            print(f"🔄 Pure processing time: {processing_time:.2f}s")
+            print(f"⏱️  Total time: {total_time:.2f}s")
+            print(f"📈 Avg processing time: {processing_time/len(audio_files):.2f}s/file")
+
+            # Generate output filename
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             model_name = asr.model_name
             output_file = f"{segments_dir}/{model_name}_transcription_results_{timestamp}.txt"
-            
-            # 将结果写入文件
+
             with open(output_file, 'w', encoding='utf-8') as f:
-                f.write(f"语音识别结果报告\n")
-                f.write(f"生成时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-                f.write(f"处理文件数: {len(audio_files)}\n")
-                f.write(f"模型加载时间: {model_load_time:.2f}秒\n")
-                f.write(f"纯处理时间: {processing_time:.2f}秒\n")
-                f.write(f"总时间: {total_time:.2f}秒\n")
-                f.write(f"平均处理时间: {processing_time/len(audio_files):.2f}秒/文件\n")
-                f.write("="*50 + "\n\n")
-                
+                f.write("ASR Transcription Report\n")
+                f.write(f"Generated at: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write(f"Files processed: {len(audio_files)}\n")
+                f.write(f"Model load time: {model_load_time:.2f}s\n")
+                f.write(f"Pure processing time: {processing_time:.2f}s\n")
+                f.write(f"Total time: {total_time:.2f}s\n")
+                f.write(f"Average processing time: {processing_time/len(audio_files):.2f}s/file\n")
+                f.write("=" * 50 + "\n\n")
+
                 for i, result in enumerate(results, 1):
                     f.write(f"[{i:03d}] {result['file']}\n")
-                    f.write(f"语言: {result['language']}\n")
-                    f.write(f"耗时: {result['duration']:.2f}秒\n")
-                    f.write(f"内容: {result['text']}\n")
+                    f.write(f"Language: {result['language']}\n")
+                    f.write(f"Elapsed: {result['duration']:.2f}s\n")
+                    f.write(f"Content: {result['text']}\n")
                     f.write("-" * 30 + "\n\n")
-            
-            print(f"📄 转录结果已保存到: {output_file}")
-            
+
+            print(f"📄 Transcription results saved to: {output_file}")
+
         else:
-            print("❌ 没有找到 .wav 文件")
+            print("❌ No .wav files found")
     else:
-        print(f"❌ 目录不存在: {segments_dir}")
+        print(f"❌ Directory does not exist: {segments_dir}")
 
 
 
